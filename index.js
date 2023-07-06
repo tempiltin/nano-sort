@@ -1,3 +1,35 @@
+
+function buildHeap(arr) {
+    const n = arr.length;
+    for (let i = Math.floor(n / 2) - 1; i >= 0; i--) {
+        heapify(arr, i, n);
+    }
+}
+function heapify(arr, i, n) {
+    const left = 2 * i + 1;
+    const right = 2 * i + 2;
+    let largest = i;
+
+    if (left < n && arr[left] > arr[largest]) {
+        largest = left;
+    }
+
+    if (right < n && arr[right] > arr[largest]) {
+        largest = right;
+    }
+
+    if (largest !== i) {
+        swap(arr, i, largest);
+        heapify(arr, largest, n);
+    }
+}
+
+function swap(arr, i, j) {
+    const temp = arr[i];
+    arr[i] = arr[j];
+    arr[j] = temp;
+}
+
 class Sort {
     quickSort(arr) {
         if (arr.length <= 1) {
@@ -13,48 +45,19 @@ class Sort {
                 right.push(arr[i]);
             }
         }
-        return [...quickSort(left), pivot, ...quickSort(right)];
-    }
-    mergeSort(arr) {
-        if (arr.length <= 1) {
-            return arr;
-        }
 
-        const mid = Math.floor(arr.length / 2);
-        const left = arr.slice(0, mid);
-        const right = arr.slice(mid);
-
-        return merge(mergeSort(left), mergeSort(right));
-    }
-
-    merge(left, right) {
-        const result = [];
-
-        while (left.length && right.length) {
-            if (left[0] <= right[0]) {
-                result.push(left.shift());
-            } else {
-                result.push(right.shift());
-            }
-        }
-
-        return [...result, ...left, ...right];
+        return [...this.quickSort(left), pivot, ...this.quickSort(right)];
     }
 
     heapSort(arr) {
         buildHeap(arr);
+
         for (let i = arr.length - 1; i > 0; i--) {
             swap(arr, 0, i);
             heapify(arr, 0, i);
         }
-        return arr;
-    }
-    buildHeapSort(arr) {
-        const n = arr.length;
 
-        for (let i = Math.floor(n / 2) - 1; i >= 0; i--) {
-            heapify(arr, i, n);
-        }
+        return arr;
     }
     insertionSort(arr) {
         const n = arr.length;
@@ -86,12 +89,6 @@ class Sort {
         return arr;
     }
 
-    swap(arr, i, j) {
-        const temp = arr[i];
-        arr[i] = arr[j];
-        arr[j] = temp;
-    }
-
     bubbleSort(arr) {
         const n = arr.length;
 
@@ -112,8 +109,5 @@ class Sort {
 
         return arr;
     }
-      
-      
-
-      
 }
+module.exports = Sort
